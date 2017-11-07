@@ -8,7 +8,7 @@ import AccountMenu from 'user/components/tools/AccountMenu'
 import ReduxLink from 'base/components/links/Redux'
 
 import { AppBar, AppBarButton} from 'bjageman-react-toolkit'
-import myConfig from 'config.js'
+import config from 'config.js'
 
 class ToolBar extends React.Component {
     state = { open: false }
@@ -20,7 +20,7 @@ class ToolBar extends React.Component {
     }
 
     render(){
-        const brandName = myConfig.APPNAME
+        const brandName = config.APPNAME
         const user = this.props.user
         return(
             <div>

@@ -1,12 +1,12 @@
 import React from 'react'
 
-import myConfig from 'config.js'
+import config from 'config.js'
 
 class Footer extends React.Component {
     render(){
         return(
             <div style={styles.footer}>
-                {myConfig.APPNAME} {myConfig.COPYRIGHTDATE}
+                {config.APPNAME} {config.COPYRIGHTDATE}
             </div>
         )
     }

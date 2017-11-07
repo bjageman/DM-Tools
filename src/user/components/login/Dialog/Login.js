@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
 import {TextInput, Dialog, Button} from 'bjageman-react-toolkit'
+import config from 'config.js'
 
 class LoginDialog extends React.Component {
     state = {
@@ -53,9 +54,11 @@ class LoginDialog extends React.Component {
                 <Button onClick={this.props.openRegistration} color="primary">
                     Sign Up
                 </Button>
+                { config.GUEST_ENABLED ?
                 <Button onClick={this.handleGuestRegistration}>
                     Guest
                 </Button>
+                : null }
             </Dialog>
         )
     }
