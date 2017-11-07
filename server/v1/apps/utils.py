@@ -1,5 +1,5 @@
 
-import os, json, sys
+import os, json, sys, random, string
 
 from flask import make_response, jsonify, abort
 from datetime import datetime
@@ -10,6 +10,13 @@ from v1.apps.config import DATETIMEFORMAT, GCS_BUCKET, ALLOWED_EXTENSIONS
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 gcloud_config = os.path.join(__location__, 'gcs_config.json')
 
+def get_model(object, id):
+    try:
+        id = int(id)
+        return object.query.filter(object.id == id).first()
+    except (ValueError, TypeError):
+        return object.query.filter(object.slug == id).first()
+
 def check_for_invalid_data(data, value):
     try:
         result = data[value]
@@ -17,11 +24,11 @@ def check_for_invalid_data(data, value):
     except (AttributeError, KeyError, TypeError):
         return True
 
-def get_optional_data(data, value):
+def get_optional_data(data, value, return_none=None):
     try:
         return data[value]
     except (AttributeError, KeyError, TypeError):
-        return None
+        return return_none
 
 def get_required_data(data, value):
     try:
@@ -35,6 +42,9 @@ def convert_string_to_datetime(date_string):
     else:
         return None
 
+def generate_random_string(size=10):
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(size))
+
 #Search Functions
 
 def search_by_name(object, object_type, name):
@@ -47,7 +57,7 @@ def search_by_name(object, object_type, name):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
+
 try:
     from gcloud import storage
     from oauth2client.service_account import ServiceAccountCredentials

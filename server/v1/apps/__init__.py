@@ -31,7 +31,7 @@ jwt = JWT(app, authenticate, identity)
 #JWT System
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
-app.register_blueprint(adventure_logs, url_prefix='/api/v1/adventure/log')
+app.register_blueprint(adventure_logs, url_prefix='/api/v1/adventure/logs')
 
 @app.after_request
 def add_headers(response):

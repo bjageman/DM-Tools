@@ -1,35 +1,44 @@
 from v1.apps.parsers import parse_base, parse_image
 from v1.apps.users.parsers import parse_user
-from v1.apps.admin.parsers import parse_command, parse_commands
 
+def parse_logs(logs, detailed=False):
+    log_set = []
+    for log in logs:
+        log_set.append(parse_log(log))
+    return(log_set)
 
+def parse_log(log):
+    try:
+        result = parse_base(log)
+        result.update({
+            "length": log.length,
+            "xp": log.xp,
+            "gold": log.gold,
+            "character": parse_character(log.character),
+            "author": parse_user(log.author)
+            })
+        return result
+    except AttributeError as e:
+        return None
 
+def parse_characters(characters):
+    character_set = []
+    for character in characters:
+        character_set.append(parse_character(character))
+    return(character_set)
 
-# def parse_stories(stories, detailed=False):
-#     story_set = []
-#     for story in stories:
-#         story_set.append(parse_story(story, detailed))
-#     return(story_set)
-#
-# def parse_story(story, detailed=True):
-#     try:
-#         result = parse_base(story)
-#         if (detailed):
-#             pages = parse_pages(story.pages, detailed)
-#         else:
-#             pages = []
-#             for page in story.pages:
-#                 pages.append(page.id)
-#         result.update({
-#             "description": story.description,
-#             "image": parse_image(story.image),
-#             "pages": pages,
-#             "owner": parse_user(story.owner),
-#             "items" : parse_items(story.items),
-#             })
-#         return result
-#     except AttributeError:
-#         return None
+def parse_character(character):
+    try:
+        result = parse_base(character)
+        result.update({
+            "class": character.classChar,
+            "race": character.race,
+            "background": character.background,
+            })
+        return result
+    except AttributeError:
+        return None
+
 #
 # def parse_pages(pages, detailed=False):
 #     page_set = []
