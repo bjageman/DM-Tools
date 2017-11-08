@@ -28,7 +28,14 @@ class ToolBar extends React.Component {
                 <ReduxLink to={config.HOME_LINK}>
                     <AppBarButton> { brandName } </AppBarButton>
                 </ReduxLink>
-                { user.id ? <AccountMenu  /> : <Login /> }
+                { user.id ?
+                    <div>
+                    <ReduxLink to="/logs/">
+                        <AppBarButton>Logs</AppBarButton>
+                    </ReduxLink>
+                    <AccountMenu  />
+                    </div>
+                : <Login /> }
             </AppBar>
             </div>
         )

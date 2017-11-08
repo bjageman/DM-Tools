@@ -1,5 +1,6 @@
 {
   "name": "dm-tools",
+  "homepage" : "http://tools.outermarches.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

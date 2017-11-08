@@ -11,7 +11,7 @@ import NotFound from 'base/components/Error'
 
 import Home from './Home'
 import Profile from 'user/components/profile/'
-import AdventureLogs from 'adventurelogs/components/'
+import AdventureLogs from 'adventure/logs/components/'
 class App extends React.Component {
   render() {
     return (

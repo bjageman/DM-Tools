@@ -24,14 +24,14 @@ socketio = SocketIO(app, async_mode=async_mode)
 from .users import users
 from v1.apps.users.utils import authenticate, identity
 
-from .adventure_logs import adventure_logs
+from .adventure import adventure
 
 jwt = JWT(app, authenticate, identity)
 
 #JWT System
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
-app.register_blueprint(adventure_logs, url_prefix='/api/v1/adventure/logs')
+app.register_blueprint(adventure, url_prefix='/api/v1/adventure')
 
 @app.after_request
 def add_headers(response):

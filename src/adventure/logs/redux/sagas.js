@@ -8,9 +8,9 @@ export function* saveCharacter(action) {
       let payload = action.payload
       let url = ""
       if (payload.id) {
-          url = 'adventure/logs/characters/' + payload.id
+          url = 'adventure/characters/' + payload.id
       }else{
-          url = 'adventure/logs/characters'
+          url = 'adventure/characters'
       }
       const response = yield call(postDataApi, url, payload, payload.access_token)
       if (response.status === 200) {
@@ -27,7 +27,7 @@ export function* saveCharacter(action) {
 export function* getCharacterListing(action) {
     try{
       let payload = action.payload
-      let url = 'adventure/logs/characters'
+      let url = 'adventure/characters'
       const response = yield call(getDataApi, url, payload.access_token)
       if (response.status === 200) {
           yield put(actions.getCharacterListingSuccess({ "data": response.data }))
@@ -39,6 +39,22 @@ export function* getCharacterListing(action) {
       }
 }
 
+export function* getAdventureLogListing(action) {
+    try{
+      let payload = action.payload
+      let url = 'adventure/logs'
+      const response = yield call(getDataApi, url, payload.access_token)
+      if (response.status === 200) {
+          yield put(actions.getAdventureLogListingSuccess({ "data": response.data }))
+        }else{
+          yield put(actions.error({ "message": response.data.description || response.data.error }))
+        }
+      }catch(error){
+        yield put(actions.error({ "message": error.message }))
+      }
+}
+
+
 export function* logout(action){
     yield put(push('/'))
 }
@@ -47,4 +63,6 @@ export default function* adventureLogSagas(){
     console.log("WORKS?")
     yield takeEvery(actions.getCharacterListing, getCharacterListing)
     yield takeEvery(actions.saveCharacter, saveCharacter)
+    yield takeEvery(actions.getAdventureLogListing, getAdventureLogListing)
+
 }

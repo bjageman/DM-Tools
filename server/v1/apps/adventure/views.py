@@ -1,7 +1,7 @@
 from flask import request, jsonify, abort
 from flask_jwt import jwt_required, current_identity
 #App Specific
-from . import adventure_logs
+from . import adventure
 from .models import Character, AdventureLog
 from .parsers import *
 from .errors import *
@@ -13,7 +13,7 @@ from v1.apps.errors import *
 from v1.apps.utils import *
 from v1.apps.users.models import User
 
-@adventure_logs.route('', methods=['GET'])
+@adventure.route('/logs', methods=['GET'])
 # @jwt_required()
 def get_logs():
     author = request.args.get("author")
@@ -24,43 +24,62 @@ def get_logs():
         logs = AdventureLog.query.all()
     return jsonify(parse_logs(logs))
 
-@adventure_logs.route('', methods=['POST', 'PUT'])
+@adventure.route('/logs', methods=['POST', 'PUT'])
 @jwt_required()
-def create_log():
+def create_log_request():
     data = request.get_json()
+    print("DATA", data)
     author = current_identity
     name = get_required_data(data, "name")
     length = get_optional_data(data, "length")
-    xp = get_optional_data(data, "xp")
-    gold = get_optional_data(data, "gold")
-    character_id = get_optional_data(data, "character_id")
-    character = get_character(character_id)
-    log = create_adventure_log(author, name, length, xp, gold, character)
+    log = create_log(author, name, length)
     db.session.add(log)
     db.session.commit()
-    return jsonify({"log": parse_log(log) })
+    return jsonify(parse_log(log))
 
-@adventure_logs.route('/characters', methods=['GET'])
+@adventure.route('/logs/<int:log_id>/characters', methods=['GET'])
+@jwt_required()
+def get_character_logs(log_id):
+    characters = AdventureLog.query.get(log_id).characters
+    return jsonify(parse_character_logs(characters))
+
+@adventure.route('/logs/<int:log_id>/characters', methods=['POST', 'PUT'])
+@jwt_required()
+def create_character_log_request(log_id):
+    data = request.get_json()
+    log = AdventureLog.query.get(log_id)
+    character_id = get_required_data(data, "character_id")
+    character = Character.query.get(character_id)
+    if log is not None and character is not None:
+        xp = get_optional_data(data, "xp")
+        gold = get_optional_data(data, "gold")
+        character_log = create_character_log(log, character, xp, gold)
+        db.session.add(character)
+        db.session.commit()
+        return jsonify(parse_character_log(character_log))
+    else:
+        abort(404)
+
+
+@adventure.route('/characters', methods=['GET'])
 # @jwt_required()
-def get_character_logs():
+def get_characters():
     characters = Character.query.all()
     return jsonify(parse_characters(characters))
 
-@adventure_logs.route('/characters', methods=['POST', 'PUT'])
+@adventure.route('/characters', methods=['POST', 'PUT'])
 @jwt_required()
-def create_character_log():
+def create_character_request():
     data = request.get_json()
-    print(data)
     name = get_required_data(data, "name")
     race = get_optional_data(data, "race")
     charClass = get_optional_data(data, "class")
     background = get_optional_data(data, "background")
     character = create_character(name, race, charClass, background)
-    print(character)
     db.session.add(character)
     db.session.commit()
-    print(character.id)
-    return jsonify({"character": parse_character(character) })
+    print(parse_character(character))
+    return jsonify(parse_character(character))
 
 # ##
 # # Editor Tools

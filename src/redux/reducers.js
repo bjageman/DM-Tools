@@ -5,7 +5,7 @@ import { createReducer } from 'redux-act'
 import * as actions from './actions'
 
 import { user } from 'user/redux/reducers'
-import { logs } from 'adventurelogs/redux/reducers'
+import { logs } from 'adventure/logs/redux/reducers'
 
 import { routerReducer as router } from 'react-router-redux'
 

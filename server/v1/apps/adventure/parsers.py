@@ -12,10 +12,28 @@ def parse_log(log):
         result = parse_base(log)
         result.update({
             "length": log.length,
-            "xp": log.xp,
-            "gold": log.gold,
-            "character": parse_character(log.character),
+            "xp": log.xp_total(),
+            "gold": log.gold_total(),
+            "character_logs": parse_character_logs(log.characters),
             "author": parse_user(log.author)
+            })
+        return result
+    except AttributeError as e:
+        return None
+
+def parse_character_logs(character_logs, detailed=False):
+    character_log_set = []
+    for character_log in character_logs:
+        character_log_set.append(parse_character_log(character_log))
+    return(character_log_set)
+
+def parse_character_log(character_log):
+    try:
+        result = parse_base(character_log)
+        result.update({
+            "xp": character_log.xp,
+            "gold": character_log.gold,
+            "character": parse_character(character_log.character),
             })
         return result
     except AttributeError as e:

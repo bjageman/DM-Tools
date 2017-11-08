@@ -7,7 +7,7 @@ const initial = {
             listing: [],
             detail: {}
       },
-      dm: {
+      adventures: {
           listing: [],
           detail: {}
       }
@@ -20,6 +20,15 @@ export const logs = createReducer({
     return {
         ...state,
         characters: {
+            listing: payload.data
+        }
+         }
+  },
+  [actions.getAdventureLogListingSuccess]: (state, payload) => {
+    console.log(payload.data)
+    return {
+        ...state,
+        adventures: {
             listing: payload.data
         }
          }

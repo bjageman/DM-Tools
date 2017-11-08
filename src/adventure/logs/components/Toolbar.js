@@ -7,14 +7,14 @@ import ReduxLink from 'base/components/links/Redux'
 const LogSheetToolbar = () => {
     return(
         <AppBar style={{backgroundColor:"grey"}}>
-            <ReduxLink to='/logs/dm'>
+            <ReduxLink to='/logs/adventures'>
                 <AppBarButton>
                     DM Logs
                 </AppBarButton>
             </ReduxLink>
             <ReduxLink to='/logs/characters'>
                 <AppBarButton>
-                    Character Logs
+                    Characters
                 </AppBarButton>
             </ReduxLink>
         </AppBar>
