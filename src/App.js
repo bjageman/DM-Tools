@@ -11,7 +11,7 @@ import NotFound from 'base/components/Error'
 
 import Home from './Home'
 import Profile from 'user/components/profile/'
-
+import AdventureLogs from 'adventurelogs/components/'
 class App extends React.Component {
   render() {
     return (
@@ -23,6 +23,7 @@ class App extends React.Component {
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/profile" component={Profile}/>
+                <Route exact path="/logs" component={AdventureLogs}/>
                 <Route component={NotFound} />
             </Switch>
             </div>

@@ -25,7 +25,7 @@ class ToolBar extends React.Component {
         return(
             <div>
             <AppBar>
-                <ReduxLink to="/">
+                <ReduxLink to={config.HOME_LINK}>
                     <AppBarButton> { brandName } </AppBarButton>
                 </ReduxLink>
                 { user.id ? <AccountMenu  /> : <Login /> }

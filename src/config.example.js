@@ -54,4 +54,6 @@ const config = getConfig();
 config.GUEST_ENABLED=false
 config.APPNAME="Template App"
 config.COPYRIGHTDATE="2017"
+config.HOME_LINK="/"
+config.LOGIN_REDIRECT="/profile"
 export default config
