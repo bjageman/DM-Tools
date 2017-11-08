@@ -8,7 +8,7 @@ from v1.apps.users.models import User
 
 class Character(Base, TimestampMixin):
     race = db.Column(db.String(32))
-    classChar = db.Column(db.String(32))
+    charClass = db.Column(db.String(32))
     background = db.Column(db.String(32))
 
 class AdventureLog(Base, TimestampMixin):

@@ -16,6 +16,10 @@ def create_adventure_log(author, name, length=0, xp=0, gold=0, character=None):
     log = AdventureLog(author=author, name=name, length=length, xp=xp, gold=gold, character=character)
     return log
 
+def create_character(name, race=None, charClass=None, background=None):
+    character = Character(name=name, race=race, charClass=charClass, background=background)
+    return character
+
 def get_character(character_id):
     if character_id is None:
         return None

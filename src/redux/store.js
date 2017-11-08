@@ -29,7 +29,7 @@ function configureStore(initialState){
         ),
     ),
   )
-  let persistor = persistStore(store, {whitelist: ['user', 'session']})
+  let persistor = persistStore(store)
   sagaMiddleware.run(sagas)
   return {store, persistor}
 }

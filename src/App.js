@@ -22,8 +22,8 @@ class App extends React.Component {
             <div style={styles.body} >
             <Switch>
                 <Route exact path="/" component={Home}/>
-                <Route exact path="/profile" component={Profile}/>
-                <Route exact path="/logs" component={AdventureLogs}/>
+                <Route path="/profile" component={Profile}/>
+                <Route path="/logs" component={AdventureLogs}/>
                 <Route component={NotFound} />
             </Switch>
             </div>

@@ -5,6 +5,7 @@ import { createReducer } from 'redux-act'
 import * as actions from './actions'
 
 import { user } from 'user/redux/reducers'
+import { logs } from 'adventurelogs/redux/reducers'
 
 import { routerReducer as router } from 'react-router-redux'
 
@@ -33,5 +34,5 @@ const config = {
 }
 
 export default persistCombineReducers(
-  config, { response, user, router} 
+  config, { response, user, router, logs}
 )

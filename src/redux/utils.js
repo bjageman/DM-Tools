@@ -7,8 +7,7 @@ export function mapStateToProps(state) {
     user: state.user,
     response: state.response,
     router: state.router,
-    editor: state.editor,
-    session: state.session,
+    logs: state.logs,
   }
   return props
 }

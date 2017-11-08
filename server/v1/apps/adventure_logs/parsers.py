@@ -31,7 +31,7 @@ def parse_character(character):
     try:
         result = parse_base(character)
         result.update({
-            "class": character.classChar,
+            "class": character.charClass,
             "race": character.race,
             "background": character.background,
             })

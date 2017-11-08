@@ -15,7 +15,7 @@ from v1.apps.users.models import User
 
 @adventure_logs.route('', methods=['GET'])
 # @jwt_required()
-def get_logs(author=None):
+def get_logs():
     author = request.args.get("author")
     if author is not None:
         author = User.query.filter_by(name=author).first()
@@ -39,6 +39,28 @@ def create_log():
     db.session.add(log)
     db.session.commit()
     return jsonify({"log": parse_log(log) })
+
+@adventure_logs.route('/characters', methods=['GET'])
+# @jwt_required()
+def get_character_logs():
+    characters = Character.query.all()
+    return jsonify(parse_characters(characters))
+
+@adventure_logs.route('/characters', methods=['POST', 'PUT'])
+@jwt_required()
+def create_character_log():
+    data = request.get_json()
+    print(data)
+    name = get_required_data(data, "name")
+    race = get_optional_data(data, "race")
+    charClass = get_optional_data(data, "class")
+    background = get_optional_data(data, "background")
+    character = create_character(name, race, charClass, background)
+    print(character)
+    db.session.add(character)
+    db.session.commit()
+    print(character.id)
+    return jsonify({"character": parse_character(character) })
 
 # ##
 # # Editor Tools
