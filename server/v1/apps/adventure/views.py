@@ -14,7 +14,7 @@ from v1.apps.utils import *
 from v1.apps.users.models import User
 
 @adventure.route('/logs', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_logs():
     author = request.args.get("author")
     if author is not None:
@@ -24,11 +24,18 @@ def get_logs():
         logs = AdventureLog.query.all()
     return jsonify(parse_logs(logs))
 
+@adventure.route('/logs/<int:log_id>', methods=['GET'])
+@jwt_required()
+def get_log(log_id):
+    log = AdventureLog.query.get(log_id)
+    if log is None:
+        abort(404)
+    return jsonify(parse_log(log))
+
 @adventure.route('/logs', methods=['POST', 'PUT'])
 @jwt_required()
 def create_log_request():
     data = request.get_json()
-    print("DATA", data)
     author = current_identity
     name = get_required_data(data, "name")
     length = get_optional_data(data, "length")

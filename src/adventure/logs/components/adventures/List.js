@@ -20,12 +20,12 @@ class AdventureLogListing extends React.Component {
             <div>
                 <Text h2>Adventure Logs</Text>
                 <ReduxLink to="/logs/adventures/new">
-                    <Button raised>New Character</Button>
+                    <Button raised>New Log</Button>
                 </ReduxLink>
                     <Table headers={["Name", "Author", "XP", "Gold", "Characters", "Created"]}>
                         { adventures.map((adventure, i) =>
-                            <TableRow rows={[
-                                    <ReduxLink to={"/logs/adventures/" +adventure.id }>{adventure.name}</ReduxLink>, 
+                            <TableRow key={i} rows={[
+                                    <ReduxLink to={"/logs/adventures/" + adventure.id  }>{adventure.name}</ReduxLink>,
                                     adventure.author.name,
                                     adventure.xp,
                                     adventure.gold,

@@ -39,6 +39,65 @@ export function* getCharacterListing(action) {
       }
 }
 
+//Adventure Logs
+
+export function* saveAdventureLog(action) {
+    try{
+      let payload = action.payload
+      let url = ""
+      if (payload.id) {
+          url = 'adventure/logs/' + payload.id
+      }else{
+          url = 'adventure/logs'
+      }
+      const response = yield call(postDataApi, url, payload, payload.access_token)
+      if (response.status === 200) {
+          yield put(actions.success({"message" : response.data.name + " was created!"}))
+          yield put(push('/logs/adventures'))
+        }else{
+          yield put(actions.error({ "message": response.data.description || response.data.error }))
+        }
+      }catch(error){
+        yield put(actions.error({ "message": error.message }))
+      }
+}
+
+export function* saveCharacterLog(action) {
+    try{
+      let payload = action.payload
+      let url = ""
+      if (payload.character_log_id) {
+          url = 'adventure/logs/' + payload.log_id + "/characters/" + payload.character_id
+      }else{
+          url = 'adventure/logs/' + payload.log_id + "/characters"
+      }
+      const response = yield call(postDataApi, url, payload, payload.access_token)
+      if (response.status === 200) {
+          yield put(actions.success({"message" : response.data.name + " was created!"}))
+          yield put(push('/logs/adventures/' + payload.log_id))
+        }else{
+          yield put(actions.error({ "message": response.data.description || response.data.error }))
+        }
+      }catch(error){
+        yield put(actions.error({ "message": error.message }))
+      }
+}
+
+export function* getAdventureLog(action) {
+    try{
+      let payload = action.payload
+      let url = 'adventure/logs/' + payload.id
+      const response = yield call(getDataApi, url, payload.access_token)
+      if (response.status === 200) {
+          yield put(actions.getAdventureLogSuccess({ "data": response.data }))
+        }else{
+          yield put(actions.error({ "message": response.data.description || response.data.error }))
+        }
+      }catch(error){
+        yield put(actions.error({ "message": error.message }))
+      }
+}
+
 export function* getAdventureLogListing(action) {
     try{
       let payload = action.payload
@@ -64,5 +123,7 @@ export default function* adventureLogSagas(){
     yield takeEvery(actions.getCharacterListing, getCharacterListing)
     yield takeEvery(actions.saveCharacter, saveCharacter)
     yield takeEvery(actions.getAdventureLogListing, getAdventureLogListing)
-
+    yield takeEvery(actions.getAdventureLog, getAdventureLog)
+    yield takeEvery(actions.saveAdventureLog, saveAdventureLog)
+    yield takeEvery(actions.saveCharacterLog, saveCharacterLog)
 }

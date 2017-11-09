@@ -16,20 +16,29 @@ const initial = {
 
 export const logs = createReducer({
   [actions.getCharacterListingSuccess]: (state, payload) => {
-    console.log(payload.data)
     return {
         ...state,
         characters: {
+            ...state.adventures,
             listing: payload.data
         }
          }
   },
   [actions.getAdventureLogListingSuccess]: (state, payload) => {
-    console.log(payload.data)
     return {
         ...state,
         adventures: {
+            ...state.adventures,
             listing: payload.data
+        }
+         }
+  },
+  [actions.getAdventureLogSuccess]: (state, payload) => {
+    return {
+        ...state,
+        adventures: {
+            ...state.adventures,
+            detail: payload.data
         }
          }
   }

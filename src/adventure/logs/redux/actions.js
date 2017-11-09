@@ -7,9 +7,17 @@ export const getCharacter = createAction("Get a specific character data")
 export const saveCharacter = createAction("Create or edit character data")
 export const saveCharacterSuccess = createAction("Sucessfully saved character data")
 
-//DM Log actions
+//Adventure Log actions
 export const getAdventureLogListing = createAction("Get the list of DM Logs")
 export const getAdventureLogListingSuccess = createAction("Sucessfully got the list of AdventureLogs")
 export const getAdventureLog = createAction("Get a specific AdventureLog data")
+export const getAdventureLogSuccess = createAction("Successfully got a specific AdventureLog data")
 export const saveAdventureLog = createAction("Create or edit AdventureLog data")
 export const saveAdventureLogSuccess = createAction("Sucessfully saved AdventureLog data")
+
+//Character Log actions
+export const getCharacterSuccess = createAction("Success in Get a specific character data")
+export const getCharacterLog = createAction("Get a specific character Log data")
+export const getCharacterLogSuccess = createAction("Get a specific character data")
+export const saveCharacterLog = createAction("Create or edit character data")
+export const saveCharacterLogSuccess = createAction("Sucessfully saved character data")
