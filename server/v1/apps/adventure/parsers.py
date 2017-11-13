@@ -31,6 +31,10 @@ def parse_character_log(character_log):
     try:
         result = parse_base(character_log)
         result.update({
+            "session": {
+                "name": character_log.log.name,
+                "id": character_log.log.id,
+            },
             "xp": character_log.xp,
             "gold": character_log.gold,
             "character": parse_character(character_log.character),
@@ -45,13 +49,17 @@ def parse_characters(characters):
         character_set.append(parse_character(character))
     return(character_set)
 
-def parse_character(character):
+def parse_character(character, logs=False):
     try:
         result = parse_base(character)
         result.update({
             "class": character.charClass,
             "race": character.race,
             "background": character.background,
+            })
+        if logs == True:
+            result.update({
+            "logs": parse_character_logs(character.logs)
             })
         return result
     except AttributeError:

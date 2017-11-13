@@ -24,6 +24,15 @@ export const logs = createReducer({
         }
          }
   },
+  [actions.getCharacterSuccess]: (state, payload) => {
+    return {
+        ...state,
+        characters: {
+            ...state.adventures,
+            detail: payload.data
+        }
+         }
+  },
   [actions.getAdventureLogListingSuccess]: (state, payload) => {
     return {
         ...state,

@@ -17,16 +17,12 @@ class CharacterListing extends React.Component {
         })
     }
 
-    handleDelete = (id) => {
-        alert("Delete " + id + "?")
-    }
-
     render(){
         const characters = this.props.logs.characters.listing
         const columns = [
         {
             id: 'name',
-            Header: 'Link',
+            Header: 'Name',
             accessor: d => d, // Custom value accessors!
             Cell: props => <ReduxLink to={"/logs/characters/" + props.value.id}><Button style={{margin:0, padding:0}}>{props.value.name}</Button></ReduxLink>
         },

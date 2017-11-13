@@ -2,7 +2,10 @@ import React from 'react'
 //Redux
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
-
+//React-table
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
+//Custom
 import { Container, Text, Table, TableRow, Button } from 'bjageman-react-toolkit'
 import ReduxLink from 'base/components/links/Redux'
 
@@ -17,34 +20,51 @@ class AdventureLogDetail extends React.Component {
     }
 
     render(){
-        const id = this.props.match.params.log_id
-        const log = this.props.logs.adventures.detail || null
+        const log = this.props.logs.adventures.detail
+        const columns = [
+        {
+            id: 'session',
+            Header: 'Session',
+            accessor: d => d, // Custom value accessors!
+            Cell: props => <ReduxLink to={"/logs/characters/" + props.value.character.id}><Button style={{margin:0, padding:0}}>{props.value.character.name}</Button></ReduxLink>
+        },
+        {
+            Header: 'XP',
+            accessor: 'xp'
+        },{
+            Header: 'Gold',
+            accessor: 'gold'
+        }
+        ]
         return(
-            <Container>
-                <Text h2>Adventure Log {id}</Text>
-                { log ?
+             log ?
                 <div>
-                    <Text p>Session Name: {log.name}</Text>
+                    <Text h2>{log.name}</Text>
                     <Text p>Author: {log.author.name}</Text>
                     <Text p>Gold: {log.gold}  XP: {log.xp}</Text>
                     <Text h3>Character Logs</Text>
-                    <ReduxLink to={"/logs/adventures/" + id + "/characters/new"}>
+                    <ReduxLink to={"/logs/adventures/" + log.id + "/characters/new"}>
                         <Button raised>New Character Log</Button>
                     </ReduxLink>
+                    <ReactTable
+                        data={log.character_logs}
+                        columns={columns}
+                        minRows={5}
+                        minWidth={0}
+                        />
                     <Table headers={["Name", "XP", "Gold"]} >
                     { log.character_logs.map((character_log, i ) =>
                         <TableRow
                             key = {i}
                             rows = {[
-                                <ReduxLink to={"/logs/adventures/" + id + "/characters/" + i }>{character_log.character.name}</ReduxLink>,
+                                <ReduxLink to={"/logs/characters/" + character_log.character.id }>{character_log.character.name}</ReduxLink>,
                                 character_log.xp,
                                 character_log.gold
                             ]} />
                     )}
                     </Table>
                 </div>
-                :null }
-            </Container>
+                :null
         )
     }
 }

@@ -24,14 +24,6 @@ def get_logs():
         logs = AdventureLog.query.all()
     return jsonify(parse_logs(logs))
 
-@adventure.route('/logs/<int:log_id>', methods=['GET'])
-@jwt_required()
-def get_log(log_id):
-    log = AdventureLog.query.get(log_id)
-    if log is None:
-        abort(404)
-    return jsonify(parse_log(log))
-
 @adventure.route('/logs', methods=['POST', 'PUT'])
 @jwt_required()
 def create_log_request():
@@ -44,9 +36,17 @@ def create_log_request():
     db.session.commit()
     return jsonify(parse_log(log))
 
+@adventure.route('/logs/<int:log_id>', methods=['GET'])
+@jwt_required()
+def get_log(log_id):
+    log = AdventureLog.query.get(log_id)
+    if log is None:
+        abort(404)
+    return jsonify(parse_log(log))
+
 @adventure.route('/logs/<int:log_id>/characters', methods=['GET'])
 @jwt_required()
-def get_character_logs(log_id):
+def get_log_characters(log_id):
     characters = AdventureLog.query.get(log_id).characters
     return jsonify(parse_character_logs(characters))
 
@@ -67,12 +67,27 @@ def create_character_log_request(log_id):
     else:
         abort(404)
 
-
 @adventure.route('/characters', methods=['GET'])
 # @jwt_required()
 def get_characters():
     characters = Character.query.all()
     return jsonify(parse_characters(characters))
+
+@adventure.route('/characters/<int:character_id>', methods=['GET'])
+# @jwt_required()
+def get_character_request(character_id):
+    character = Character.query.get(character_id)
+    if character is None:
+        abort(404)
+    return jsonify(parse_character(character, logs=True))
+
+@adventure.route('/characters/<int:character_id>/logs', methods=['GET'])
+@jwt_required()
+def get_characters_logs(character_id):
+    character = Character.query.get(character_id)
+    if character is None:
+        abort(404)
+    return jsonify(parse_character_logs(character.logs))
 
 @adventure.route('/characters', methods=['POST', 'PUT'])
 @jwt_required()

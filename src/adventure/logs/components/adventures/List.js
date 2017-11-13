@@ -3,6 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
+import ReactTable from 'react-table'
+import 'react-table/react-table.css'
 import { Text, Button, Table, TableRow } from 'bjageman-react-toolkit'
 import ReduxLink from 'base/components/links/Redux'
 
@@ -16,23 +18,33 @@ class AdventureLogListing extends React.Component {
 
     render(){
         const adventures = this.props.logs.adventures.listing
+        const columns = [
+        {
+            id: 'session',
+            Header: 'Session',
+            accessor: d => d, // Custom value accessors!
+            Cell: props => <ReduxLink to={"/logs/adventures/" + props.value.id}><Button style={{margin:0, padding:0}}>{props.value.name}</Button></ReduxLink>
+        },
+        {
+            Header: 'XP',
+            accessor: 'xp'
+        },{
+            Header: 'Gold',
+            accessor: 'gold'
+        }
+        ]
         return(
             <div>
                 <Text h2>Adventure Logs</Text>
                 <ReduxLink to="/logs/adventures/new">
                     <Button raised>New Log</Button>
                 </ReduxLink>
-                    <Table headers={["Name", "Author", "XP", "Gold", "Characters", "Created"]}>
-                        { adventures.map((adventure, i) =>
-                            <TableRow key={i} rows={[
-                                    <ReduxLink to={"/logs/adventures/" + adventure.id  }>{adventure.name}</ReduxLink>,
-                                    adventure.author.name,
-                                    adventure.xp,
-                                    adventure.gold,
-                                    adventure.character_logs.length,
-                                    adventure.created]} />
-                        )}
-                    </Table>
+                <ReactTable
+                    data={adventures}
+                    columns={columns}
+                    minRows={5}
+                    minWidth={0}
+                    />
             </div>
         )
     }
