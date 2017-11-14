@@ -6,7 +6,7 @@ import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 //Custom
-import { Container, Text, Table, TableRow, Button } from 'bjageman-react-toolkit'
+import { Text, Button } from 'bjageman-react-toolkit'
 import ReduxLink from 'base/components/links/Redux'
 
 
@@ -52,17 +52,6 @@ class AdventureLogDetail extends React.Component {
                         minRows={5}
                         minWidth={0}
                         />
-                    <Table headers={["Name", "XP", "Gold"]} >
-                    { log.character_logs.map((character_log, i ) =>
-                        <TableRow
-                            key = {i}
-                            rows = {[
-                                <ReduxLink to={"/logs/characters/" + character_log.character.id }>{character_log.character.name}</ReduxLink>,
-                                character_log.xp,
-                                character_log.gold
-                            ]} />
-                    )}
-                    </Table>
                 </div>
                 :null
         )

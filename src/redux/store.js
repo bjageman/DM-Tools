@@ -1,6 +1,6 @@
 import { compose, createStore, applyMiddleware } from 'redux'
 
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createHashHistory'
 //Middleware
 import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'

@@ -5,7 +5,7 @@ import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import { Text, Button, Table, TableRow } from 'bjageman-react-toolkit'
+import { Text, Button} from 'bjageman-react-toolkit'
 
 import ReduxLink from 'base/components/links/Redux'
 
