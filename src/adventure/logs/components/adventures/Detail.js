@@ -62,6 +62,7 @@ class AdventureLogDetail extends React.Component {
                             columns={columns}
                             minRows={5}
                             minWidth={0}
+                            filterable
                             />
                     : null }
                 </div>

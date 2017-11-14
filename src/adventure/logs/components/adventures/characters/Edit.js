@@ -43,12 +43,12 @@ class AdventureLogEdit extends React.Component {
             this.props.logs.characters.listing[0] ?
             <Container center>
                 <Text h2>New Character Log</Text>
-                {this.state.character_id}
                 <select style={{fontSize:"16px"}} name="character_id" value={this.state.character_id} onChange={this.handleChange}>
                     {this.props.logs.characters.listing.map((character, i) =>
-                        <option key={i} value={character.id}>{character.id}: {character.name}</option>
+                        <option key={i} value={character.id}>{character.name}</option>
                     )}
                 </select>
+                {"  "}<ReduxLink to="/logs/characters/new"><Button style={{margin:0, padding: 0}}>create a character</Button></ReduxLink>
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="Description" name="name" value={this.state.name} />
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="XP" name="xp" value={this.state.xp} />
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="Gold" name="gold" value={this.state.gold} />
