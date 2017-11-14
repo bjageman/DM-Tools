@@ -8,6 +8,8 @@ export const getCharactersLogs = createAction("Get the Log data of a specific ch
 export const getCharactersLogsSuccess = createAction("Succeeded with Get the Log data of a specific character")
 export const saveCharacter = createAction("Create or edit character data")
 export const saveCharacterSuccess = createAction("Sucessfully saved character data")
+export const deleteCharacter = createAction("Delete character data")
+export const deleteCharacterSuccess = createAction("Sucessfully deleted character data")
 
 //Adventure Log actions
 export const getAdventureLogListing = createAction("Get the list of DM Logs")

@@ -23,10 +23,20 @@ class AdventureLogDetail extends React.Component {
         const log = this.props.logs.adventures.detail
         const columns = [
         {
-            id: 'session',
-            Header: 'Session',
+            Header: 'Description',
+            accessor: 'name'
+        },
+        {
+            id: 'character',
+            Header: 'Character',
             accessor: d => d, // Custom value accessors!
-            Cell: props => <ReduxLink to={"/logs/characters/" + props.value.character.id}><Button style={{margin:0, padding:0}}>{props.value.character.name}</Button></ReduxLink>
+            Cell: props => (
+                props.value.character ?
+                    <ReduxLink to={"/logs/characters/" + props.value.character.id}>
+                        <Button style={{margin:0, padding:0}}>{props.value.character.name}</Button>
+                    </ReduxLink>
+                : "Loading..."
+            )
         },
         {
             Header: 'XP',
@@ -46,12 +56,14 @@ class AdventureLogDetail extends React.Component {
                     <ReduxLink to={"/logs/adventures/" + log.id + "/characters/new"}>
                         <Button raised>New Character Log</Button>
                     </ReduxLink>
-                    <ReactTable
-                        data={log.character_logs}
-                        columns={columns}
-                        minRows={5}
-                        minWidth={0}
-                        />
+                    { log.character_logs ?
+                        <ReactTable
+                            data={log.character_logs}
+                            columns={columns}
+                            minRows={5}
+                            minWidth={0}
+                            />
+                    : null }
                 </div>
                 :null
         )

@@ -2,7 +2,7 @@ from flask import request, jsonify, abort
 from flask_jwt import jwt_required, current_identity
 #App Specific
 from . import adventure
-from .models import Character, AdventureLog
+from .models import Character, AdventureLog, CharacterLog
 from .parsers import *
 from .errors import *
 from .utils import *
@@ -36,13 +36,38 @@ def create_log_request():
     db.session.commit()
     return jsonify(parse_log(log))
 
+@adventure.route('/logs/<int:log_id>', methods=['POST', 'PUT'])
+@jwt_required()
+def edit_log_request(log_id):
+    data = request.get_json()
+    log = AdventureLog.query.filter_by(id=log_id)
+    name = get_required_data(data, "name")
+    length = get_optional_data(data, "length")
+    if len(log) == 0:
+        abort(404)
+    log.update({"name": name, "length": length})
+    return jsonify(parse_log(log))
+
 @adventure.route('/logs/<int:log_id>', methods=['GET'])
 @jwt_required()
-def get_log(log_id):
+def get_log_request(log_id):
     log = AdventureLog.query.get(log_id)
     if log is None:
         abort(404)
     return jsonify(parse_log(log))
+
+@adventure.route('/logs/<int:log_id>', methods=['DELETE'])
+@jwt_required()
+def delete_log_request(log_id):
+    log = AdventureLog.query.get(log_id)
+    if log is None:
+        abort(404)
+    deleteObject(log, db)
+    log = AdventureLog.query.get(log_id)
+    if log is None:
+        return jsonify({"deleted":log_id})
+    else:
+        abort(405)
 
 @adventure.route('/logs/<int:log_id>/characters', methods=['GET'])
 @jwt_required()
@@ -50,22 +75,36 @@ def get_log_characters(log_id):
     characters = AdventureLog.query.get(log_id).characters
     return jsonify(parse_character_logs(characters))
 
-@adventure.route('/logs/<int:log_id>/characters', methods=['POST', 'PUT'])
+@adventure.route('/logs/<int:log_id>/characters/<int:character_id>', methods=['POST', 'PUT'])
 @jwt_required()
-def create_character_log_request(log_id):
+def create_character_log_request(log_id, character_id):
     data = request.get_json()
     log = AdventureLog.query.get(log_id)
-    character_id = get_required_data(data, "character_id")
     character = Character.query.get(character_id)
+    print(log, character)
     if log is not None and character is not None:
+        name = get_optional_data(data, "name", return_none="")
         xp = get_optional_data(data, "xp")
         gold = get_optional_data(data, "gold")
-        character_log = create_character_log(log, character, xp, gold)
-        db.session.add(character)
+        character_log = create_character_log(log, character, name, xp, gold)
+        db.session.add(character_log)
         db.session.commit()
         return jsonify(parse_character_log(character_log))
     else:
         abort(404)
+
+@adventure.route('/logs/characters/<int:character_log_id>', methods=['DELETE'])
+@jwt_required()
+def delete_character_log_request(character_log_id):
+    character_log = CharacterLog.query.get(log_id)
+    if character_log is None:
+        abort(404)
+    deleteObject(character_log, db)
+    character_log = CharacterLog.query.get(character_log_id)
+    if character_log is None:
+        return jsonify({"deleted":character_log_id})
+    else:
+        abort(405)
 
 @adventure.route('/characters', methods=['GET'])
 # @jwt_required()
@@ -100,8 +139,20 @@ def create_character_request():
     character = create_character(name, race, charClass, background)
     db.session.add(character)
     db.session.commit()
-    print(parse_character(character))
     return jsonify(parse_character(character))
+
+@adventure.route('/characters/<int:character_id>', methods=['DELETE'])
+@jwt_required()
+def delete_character_request(character_id):
+    character = Character.query.get(character_id)
+    if character is None:
+        abort(404)
+    deleteObject(character, db)
+    character = Character.query.get(character_id)
+    if character is None:
+        return jsonify({"deleted":character_id})
+    else:
+        abort(405)
 
 # ##
 # # Editor Tools

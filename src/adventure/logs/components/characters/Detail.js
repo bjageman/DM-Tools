@@ -18,7 +18,10 @@ class CharacterDetail extends React.Component {
     }
 
     handleDelete = (id) => {
-        alert("Delete " + id + "?")
+        this.props.deleteCharacter({
+            access_token: this.props.user.access_token,
+            id: id,
+        })
     }
 
     render(){

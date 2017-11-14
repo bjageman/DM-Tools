@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
-import { Container, Text, TextInput, FileInput, Button } from 'bjageman-react-toolkit'
+import { Container, Text, TextInput, Button } from 'bjageman-react-toolkit'
 
 class CharacterEdit extends React.Component {
     state = {
@@ -32,8 +32,7 @@ class CharacterEdit extends React.Component {
     render(){
         return(
             <Container center>
-                <Text h2>New Character</Text>
-                <FileInput label="Portrait" name="Portrait"/>
+                <Text h4>New Character</Text>
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="Name" name="name" value={this.state.name} />
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="Race" name="race" value={this.state.race} />
                 <TextInput onChange={this.handleChange} style={styles.input} placeholder="Class" name="class" value={this.state.class} />

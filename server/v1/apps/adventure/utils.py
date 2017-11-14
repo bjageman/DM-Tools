@@ -16,9 +16,9 @@ def create_log(author, name, length=0):
     log = AdventureLog(author=author, name=name, length=length)
     return log
 
-def create_character_log(log, character, xp=0, gold=0):
-    character = CharacterLog(log=log, character=character, xp=xp, gold=gold)
-    return character
+def create_character_log(log, character, name="", xp=0, gold=0):
+    character_log = CharacterLog(name=name, log=log, character=character, xp=xp, gold=gold)
+    return character_log
 
 def create_character(name, race=None, charClass=None, background=None):
     character_log = Character(name=name, race=race, charClass=charClass, background=background)

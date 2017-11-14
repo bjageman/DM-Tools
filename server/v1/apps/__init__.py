@@ -36,5 +36,6 @@ app.register_blueprint(adventure, url_prefix='/api/v1/adventure')
 @app.after_request
 def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     return response
