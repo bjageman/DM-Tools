@@ -39,11 +39,11 @@ class AdventureLogDetail extends React.Component {
             )
         },
         {
-            Header: 'XP',
-            accessor: 'xp'
+            Header: 'Checkpoints',
+            accessor: 'checkpoint'
         },{
-            Header: 'Gold',
-            accessor: 'gold'
+            Header: 'Treasure Points',
+            accessor: 'treasurepoint'
         }
         ]
         return(
@@ -51,10 +51,14 @@ class AdventureLogDetail extends React.Component {
                 <div>
                     <Text h2>{log.name}</Text>
                     <Text p>Author: {log.author.name}</Text>
-                    <Text p>Gold: {log.gold}  XP: {log.xp}</Text>
-                    <Text h3>Character Logs</Text>
+                    {/*Placeholders*/}
+                    <Text p>Length (in hours): {log.length} </Text>
+                    <Text p>Tier: {log.tier} </Text>
+                    <Text p>Players: Mary, Sue, Bob, Jerry</Text>
+                    {/*Back to normal */}
+                    <Text h3>Extra Details</Text>
                     <ReduxLink to={"/logs/adventures/" + log.id + "/characters/new"}>
-                        <Button raised>New Character Log</Button>
+                        <Button raised>Add Custom Log</Button>
                     </ReduxLink>
                     { log.character_logs ?
                         <ReactTable

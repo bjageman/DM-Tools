@@ -5,7 +5,6 @@ import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
 import { Route, Switch } from 'react-router'
 
-import Detail from './Detail'
 import Edit from './Edit'
 
 class CharacterLog extends React.Component {
@@ -22,8 +21,6 @@ class CharacterLog extends React.Component {
         return(
             <Switch>
                 <Route path={match.url + "/new"} component={Edit}/>
-                <Route exact path={match.url + "/:char_id"} component={Detail}/>
-                <Route path={match.url + "/:char_id/edit"} component={Detail}/>
             </Switch>
         )
     }

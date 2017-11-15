@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from 'redux/utils'
 
 import ReactTable from 'react-table'
-import 'react-table/react-table.css'
 import {Button, Text} from 'bjageman-react-toolkit'
 import ReduxLink from 'base/components/links/Redux'
 
@@ -35,11 +34,11 @@ class CharacterDetail extends React.Component {
             Cell: props => <ReduxLink to={"/logs/adventures/" + props.value.id}><Button style={{margin:0, padding:0}}>{props.value.name}</Button></ReduxLink>
         },
         {
-            Header: 'XP',
-            accessor: 'xp'
+            Header: 'Checkpoints',
+            accessor: 'checkpoint'
         },{
-            Header: 'Gold',
-            accessor: 'gold'
+            Header: 'Treasure Point',
+            accessor: 'treasurepoint'
         }
         ]
         return(
@@ -50,7 +49,9 @@ class CharacterDetail extends React.Component {
                     <Text p>
                         Class: {character.class} <br/>
                         Race: {character.race} <br/>
-                        Background: {character.background}
+                        Background: {character.background} <br/>
+                        Level: {character.level}({character.checkpoints})<br />
+                        Treasure Points: {character.treasurepoints}<br />
                     </Text>
                     <Text h3>Logs</Text>
                     <ReactTable

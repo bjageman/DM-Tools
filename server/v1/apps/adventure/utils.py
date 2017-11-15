@@ -12,12 +12,12 @@ def deleteObject(object, db):
     db.session.commit()
     return slug
 
-def create_log(author, name, length=0):
-    log = AdventureLog(author=author, name=name, length=length)
+def create_log(author, name, length=0, tier=1, characters=[]):
+    log = AdventureLog(author=author, name=name, length=length, tier=tier)
     return log
 
-def create_character_log(log, character, name="", xp=0, gold=0):
-    character_log = CharacterLog(name=name, log=log, character=character, xp=xp, gold=gold)
+def create_character_log(log, character, name="", checkpoint=0, treasurepoint=0):
+    character_log = CharacterLog(name=name, log=log, character=character, checkpoint=checkpoint, treasurepoint=treasurepoint)
     return character_log
 
 def create_character(name, race=None, charClass=None, background=None):

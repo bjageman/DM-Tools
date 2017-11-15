@@ -7,6 +7,9 @@ import Toolbar from './Toolbar'
 import DMLogSheet from './adventures/'
 import CharacterLogSheet from './characters/'
 
+import 'react-table/react-table.css'
+import 'react-select/dist/react-select.css';
+
 const Home = () => (
     <Container>Adventure Logs Home</Container>
 )

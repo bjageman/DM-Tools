@@ -26,18 +26,18 @@ class AdventureLogListing extends React.Component {
             Cell: props => <ReduxLink to={"/logs/adventures/" + props.value.id}><Button style={{margin:0, padding:0}}>{props.value.name}</Button></ReduxLink>
         },
         {
-            Header: 'XP',
-            accessor: 'xp'
+            Header: 'Length',
+            accessor: 'checkpoint'
         },{
-            Header: 'Gold',
-            accessor: 'gold'
+            Header: 'Players',
+            accessor: 'treasurepoint'
         }
         ]
         return(
             <div>
                 <Text h2>Adventure Logs</Text>
                 <ReduxLink to="/logs/adventures/new">
-                    <Button raised>New Log</Button>
+                    <Button raised>New Adventure</Button>
                 </ReduxLink>
                 <ReactTable
                     data={adventures}

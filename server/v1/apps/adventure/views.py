@@ -31,7 +31,14 @@ def create_log_request():
     author = current_identity
     name = get_required_data(data, "name")
     length = get_optional_data(data, "length")
-    log = create_log(author, name, length)
+    tier = get_optional_data(data, "tier")
+    characters = get_optional_data(data, "characters")
+    log = create_log(author, name, length, tier)
+    for character in characters:
+        log_name = ""
+        character_object = Character.query.get(character['value'])
+        log_name = "Base Rewards"
+        character_log = create_character_log(log, character_object, log_name, length, (int(length) / 2) )
     db.session.add(log)
     db.session.commit()
     return jsonify(parse_log(log))
@@ -84,9 +91,9 @@ def create_character_log_request(log_id, character_id):
     print(log, character)
     if log is not None and character is not None:
         name = get_optional_data(data, "name", return_none="")
-        xp = get_optional_data(data, "xp")
-        gold = get_optional_data(data, "gold")
-        character_log = create_character_log(log, character, name, xp, gold)
+        checkpoint = get_optional_data(data, "checkpoint")
+        treasurepoint = get_optional_data(data, "treasurepoint")
+        character_log = create_character_log(log, character, name, checkpoint, treasurepoint)
         db.session.add(character_log)
         db.session.commit()
         return jsonify(parse_character_log(character_log))
@@ -107,13 +114,13 @@ def delete_character_log_request(character_log_id):
         abort(405)
 
 @adventure.route('/characters', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_characters():
     characters = Character.query.all()
     return jsonify(parse_characters(characters))
 
 @adventure.route('/characters/<int:character_id>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_character_request(character_id):
     character = Character.query.get(character_id)
     if character is None:

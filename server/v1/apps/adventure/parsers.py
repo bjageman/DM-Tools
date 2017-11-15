@@ -12,9 +12,10 @@ def parse_log(log):
         result = parse_base(log)
         result.update({
             "length": log.length,
-            "xp": log.xp_total(),
-            "gold": log.gold_total(),
-            "character_logs": parse_character_logs(log.characters),
+            "tier": log.tier,
+            "checkpoint": log.checkpoint_total(),
+            "treasurepoint": log.treasurepoint_total(),
+            "character_logs": parse_character_logs(log.character_logs),
             "author": parse_user(log.author)
             })
         return result
@@ -35,8 +36,8 @@ def parse_character_log(character_log):
                 "name": character_log.log.name,
                 "id": character_log.log.id,
             },
-            "xp": character_log.xp,
-            "gold": character_log.gold,
+            "checkpoint": character_log.checkpoint,
+            "treasurepoint": character_log.treasurepoint,
             "character": parse_character(character_log.character),
             })
         return result
@@ -56,13 +57,17 @@ def parse_character(character, logs=False):
             "class": character.charClass,
             "race": character.race,
             "background": character.background,
+            "level": character.level(),
+            "treasurepoints": character.treasurepoints(),
+            "checkpoints": character.checkpoints(),
             })
         if logs == True:
             result.update({
             "logs": parse_character_logs(character.logs)
             })
         return result
-    except AttributeError:
+    except AttributeError as e:
+        print(e)
         return None
 
 #

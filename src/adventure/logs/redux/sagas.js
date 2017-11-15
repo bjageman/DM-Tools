@@ -15,7 +15,7 @@ export function* saveCharacter(action) {
       const response = yield call(postDataApi, url, payload, payload.access_token)
       if (response.status === 200) {
           yield put(actions.success({"message" : response.data.name + " was created!"}))
-          yield put(push('/logs/characters'))
+          yield put(push('/logs/characters/' + response.data.id))
         }else{
           yield put(actions.error({ "message": response.data.description || response.data.error }))
         }
@@ -84,7 +84,7 @@ export function* saveAdventureLog(action) {
       const response = yield call(postDataApi, url, payload, payload.access_token)
       if (response.status === 200) {
           yield put(actions.success({"message" : response.data.name + " was created!"}))
-          yield put(push('/logs/adventures'))
+          yield put(push('/logs/adventures/' + response.data.id))
         }else{
           yield put(actions.error({ "message": response.data.description || response.data.error }))
         }
